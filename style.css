@@ -11,7 +11,7 @@ body {
   color: #093637;
 }
 
-  input[type=text] { /*CSS for the input boxes inside the form box*/
+  input[type=text], input[type=password], input[checkbox] { /*CSS for the input boxes inside the form box*/
   width: 100%;
   padding: 11px 5px;
   margin: 8px 0;
