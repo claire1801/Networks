@@ -1,0 +1,52 @@
+
+
+
+body {
+  background: -webkit-linear-gradient(to right, #093637, #44A08D);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #093637, #44A08D); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+  .form {
+  background-color: white; /*CSS for the form box*/
+  padding: 15px ;
+  border-radius: 0px ;
+  color: #093637;
+}
+
+  input[type=text] { /*CSS for the input boxes inside the form box*/
+  width: 100%;
+  padding: 11px 5px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  color: #093637;
+  border-radius: 0px ;
+}
+
+  button {                /*CSS for the buttons*/
+  background-color: #44A08D;
+  color: white;
+  padding: 10px 15px;
+  margin: 10px 0;
+  border: none;
+  cursor: pointer;
+  width: 30%;
+}
+  button:hover {
+  opacity: 0.5;
+}
+
+.results {
+  background-color: rgba(255,255,255); /*CSS for the results box*/
+  padding: 15px ;
+  border-radius: 0px ;
+  color: #093637;
+}
+
+.projects {
+  background-color: rgba(255,255,255); /*CSS for the projects box*/
+  padding: 15px ;
+  border-radius: 0px ;
+  color: #093637;
+  width: 40%;
+}
