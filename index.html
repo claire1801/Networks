@@ -1,0 +1,167 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="./css/style.css" type="text/css">
+  <link rel="stylesheet" href="./library/css/font-awesome.min.css">
+  <link rel="stylesheet" href="./library/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="./library/css/animate.min.css">
+  <script type="text/javascript" src="./library/js/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="./js/login.js"></script>
+</head>
+<body>
+    <div  class="d-flex justify-content-center">
+  		<div id="login_frame" class="card mt-5 col-md-4 animated bounceInDown form">
+        <div class="card-header">
+  				<h4>Login</h4>
+  			</div>
+        <div class="input-container">
+          <INPUT class="input-field" type="text" placeholder="Username" id="username" required><BR>
+        </div>
+        <div class="input-container">
+          <INPUT class="input-field" type="password" placeholder="Password" id="password" required>
+        </div>
+        <button id="login-button" type="button">Login</button>
+      </div>
+    </div>
+
+    <div id="scrum_poker_frame" class="row">
+      <div class="col-sm-6 mt-5 ">
+        <div class="card form ">
+          <div class="card-header">
+    				<h4>ABC Project - Scrum Master</h4>
+    			</div>
+          <button id="logout-button" type="button">Logout</button>
+          <div class="input-container">
+            <INPUT class="input-field" type="text" placeholder="Ticket ID" id="TicketID" required><BR>
+          </div>
+          <div class="input-container">
+            <INPUT class="input-field" type="text" placeholder="Description" id="Description" required>
+          </div>
+          <div class="input-container">
+            <INPUT class="input-field" type="text" placeholder="Ticket Link" id="TicketLink" required>
+          </div>
+          <button type="submit">Submit</button>
+          <button type="submit">Reset</button>
+        </div>
+        <div class="card results mt-5">
+          <div class="card-header">
+            <h4>Results</h4>
+          </div>
+        <div class="card-body">
+        Estimations go here.
+        </div>
+        <hr />
+        <div class="form-check form-check-inline ">
+          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+          <label class="form-check-label" for="inlineRadio1">1 Day</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+          <label class="form-check-label" for="inlineRadio2">2 Days</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+          <label class="form-check-label" for="inlineRadio3">3 Days</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option4">
+          <label class="form-check-label" for="inlineRadio4">4 Days</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5" value="option5">
+          <label class="form-check-label" for="inlineRadio5">5 Days</label>
+        </div>
+        <div class="buttons">
+          <button type="button">Submit</button>
+          <button type="button">Re-estimate</button>
+        </div>
+        </div>
+      </div>
+      <div class="col-sm-6 mt-5 ">
+        <div class="card projects ">
+          <div class="card-header">
+            <h4>Projects</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="developer_frame" class="row">
+        <div class="col-sm-6 mt-5 ">
+          <div class="card form ">
+            <div class="card-header">
+      				<h4>ABC Project - Developer</h4>
+      			</div>
+            <button id="dev-logout-button" type="button">Logout</button>
+          <label>Ticket ID</label>
+          <label>Description</label>
+          <label>How many days to complete the task?</label>
+
+          <div class="form-check form-check-inline ">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+            <label class="form-check-label" for="inlineRadio1">1 Day</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+            <label class="form-check-label" for="inlineRadio2">2 Days</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+            <label class="form-check-label" for="inlineRadio3">3 Days</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option4">
+            <label class="form-check-label" for="inlineRadio4">4 Days</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5" value="option5">
+            <label class="form-check-label" for="inlineRadio5">5 Days</label>
+          </div>
+          <div class="buttons">
+            <button type="submit">Submit</button>
+          </div>
+          </div>
+          <div class="card results mt-5">
+            <div class="card-header">
+              <h4>Results</h4>
+            </div>
+          <div class="card-body">
+          See other's estimations
+          </div>
+          <hr />
+
+          </div>
+        </div>
+        <div class="col-sm-6 mt-5 ">
+          <div class="card projects ">
+              <h4>Projects</h4>
+            </div>
+          </div>
+   <div class="card-header">
+              <h4>Projects</h4>
+            </div>
+          </div>
+
+    <div id="sm-project-frame">
+      <div class="d-flex justify-content-center">
+        <div class="card mt-5 col-md-5">
+          <div class="card-header">
+      				<h4>Online Scrum Task Estimation</h4>
+      			</div>
+            <form method="post">
+              <div class="input-container">
+                  <input type="text" class="for-control" placeholder="Project Name" id="project-name" required>
+                  <div class="form-group">
+              		<button type="submit"> Create New Project</button>
+                  <button id="sm-logout-button" type="button">Logout</button>
+              	  </div>
+              </div>
+            </form>
+    	     </div>
+         </div>
+    </div>
+
+</body>
+</html>
