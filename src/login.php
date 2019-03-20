@@ -1,4 +1,46 @@
 <?php
+session_start();
+
+//Check if username and password has been submitted
+if(!isset($_POST["username"] && $_POST["password"])) {
+  $message = "Please enter a valid username and password";
+}
+
+//connect to the database
+else {
+$host = "localhost";
+$db_name = "application";
+$db_user = "root";
+$db_pass = "";
+
+$param = 'mysql:dbname=' . $db_name . ';host=' . $db_host;
+$pdo = new PDO($param, $db_user, $db_pass);
+
+//select user from database
+$sql = "SELECT *
+        FROM users
+        WHERE email = :email
+        LIMIT 1";
+
+$stmt = $pdo->prepare($sql);
+$stmt->bindParam(1, $email);
+$stmt->execute();
+$email = $stmt->fetch();
+
+unset($pdo);
+
+//if email doesn't exist
+if(!$email) {
+  $message = "This email isn't registerd";
+    }
+}
+
+
+
+
+
+
+
 
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 
