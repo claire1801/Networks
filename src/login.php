@@ -1,17 +1,31 @@
 <?php
+require_once('db.php')
+
+session_start();
+//if login button is selected
+if(ISSET($_POST['login-button'])) {
+	//if username or password fields empty, display message
+ 	if(empty($_POST['username']) || empty($POST_['password'])) {
+ 		$message = 'Enter username and password';
+ 	}
+	//connect to database and create query
+	else {
+	$username = $_POST['username'];
+	$password = $_POST['password'];
+
+
+	$sql = 'SELECT *, FROM users WHERE email = $username AND password = $password';
+	$stmt = $db_conn->prepare($sql);
+	$stmt->execute();
+	}
+}
 
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 
 switch($requestMethod) {
 
     case 'POST':
-        $username = '';
-        $password = '';
-
-        if (isset($_POST['username'])) {$username = $_POST['username'];}
-        if (isset($_POST['password'])) {$password = $_POST['password'];}
-
-        //TOdo check the username , password from database
+        
 
         if (($username == 'scrum_master') && ($password == 'test')) {
 
