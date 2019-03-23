@@ -17,19 +17,24 @@ class loginSystem {
     onLogin() {
         $.ajax({
           type: "POST",
-          url: "./src/login.php",
+          url: "./src/restService.php",
           dataType: "json",
           data: {
             username: $( "#username" ).val(),
             password: $( "#password" ).val(),
+            action: 'login'
           },
           success: ((data)=>{
             console.log(this);
-            localStorage.token = data['token'];
-            localStorage.admin = 1;
-            localStorage.project_id = 0;
-            console.log('Successfully retrieved token from the server! Token: ' + data['token']);
-            this.checkLogin();
+            if(data['status'] == 1) {
+              localStorage.token = data['token'];
+              localStorage.scrum_master = data['scrum_master'];
+              localStorage.project_id = 0;
+              console.log('Successfully retrieved token from the server! Token: ' + data['token']);
+              this.checkLogin();
+            } else {
+              console.log("Error: Login Failed");
+            }
           }),
           error: function() {
             console.log("Error: Login Failed");
@@ -51,7 +56,7 @@ class loginSystem {
       this.hideDeveloperFrame();
       this.hideSmStartPage();
       if(localStorage.token) {
-        if (localStorage.admin == 1) {
+        if (localStorage.scrum_master == 1) {
             if(localStorage.project_id != 0) {
               this.showScrumPokerFrame();
             } else {
