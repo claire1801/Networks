@@ -10,9 +10,8 @@ class ScrumPokerController {
 
   public function __construct()
     {
-
         $this->_user = new DB_Users();
-        //$this->
+        $this->_proj = new DB_Project();
     }
 
 
@@ -59,9 +58,47 @@ class ScrumPokerController {
 
   }
 
-  public function createProject() {
-     //if already exist return error
-     //only SM
+  public function checkUserProject($projId) {
+      $res = $this->_proj->checkProjectById($projId);
+      if(count($res) >0) {
+          $res1 = $this->_proj->checkProjUser($projId, $this->userId);
+          if(count($res1) == 0) {
+              $res2 = $this->_proj->createProjUser($projId, $this->userId);
+              if($res2) {
+                 $_SESSION['project_id'] = $projId;
+                 return $projId;
+              }
+          } else {
+            $_SESSION['project_id'] = $projId;
+             return $projId;
+          }
+      }
+      return 0;
+  }
+
+  public function createProject($projName) {
+      $response = array();
+
+      if (is_null($projName)) {
+          throw new Exception('Project name is not valid'.$projName);
+      }
+      $res = $this->_proj->checkProject($projName);
+      if(count($res) > 0){
+        $response['status'] = 4;
+        $response['desc']   = 'Project already exist';
+        return $response;
+      }
+      $res = $this->_proj->createProject($projName);
+       if (!$res) {
+           $response['status'] = 2;
+           $response['desc']   = 'Project creation failed';
+       } else {
+           $response['status'] = 1;
+           $response['project_id']  = $res;
+           $response['project_name']  = $projName;
+           $response['desc']   = 'New project created';
+       }
+       return $response;
   }
 
   public function getProjectDetails($projId) {
@@ -114,7 +151,7 @@ public function verifyUser() {
   if (!is_null($this->token)) {
       require_once('jwt.php');
       try {
-          $payload = JWT::decode($token, Settings::SECRET_TOKEN_KEY, array('HS256'));
+          $payload = JWT::decode($this->token, Settings::SECRET_TOKEN_KEY, array('HS256'));
           $returnArray = array('userId' => $payload->userId);
           $res = $this->getUser($payload->userId);
           if(isset($res['user_id'])) {
@@ -134,6 +171,19 @@ public function setToken($token) {
     $this->token = $token;
 }
 
+public function logout() {
+  Utils::addDebugLog('logout');
+
+  $_SESSION = array();
+  if (ini_get("session.use_cookies")) {
+      $params = session_get_cookie_params();
+      setcookie(session_name(), '', time() - 42000,
+          $params["path"], $params["domain"],
+          $params["secure"], $params["httponly"]
+      );
+  }
+  session_destroy();
+}
 
 
 }

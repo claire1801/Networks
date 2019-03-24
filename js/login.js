@@ -8,11 +8,25 @@ class loginSystem {
         this.onLogin();
       });
 
+      $('#createProj').click(()=>{
+        this.onProjectCreate();
+      });
+
       $('#logout-button, #dev-logout-button, #sm-logout-button').click(()=>{
         this.onLogout();
       });
+
+      $('#sm_ticket_submit').click(()=>{
+        this.onTicketSubmit();
+      });
     }
 
+    checkProject() {
+      var project_id = location.search.split('project_id=')[1];
+      if(project_id != undefined && localStorage.token != undefined) {
+         this.checkUserProject(project_id);
+      }
+    }
 
     onLogin() {
         $.ajax({
@@ -25,15 +39,17 @@ class loginSystem {
             action: 'login'
           },
           success: ((data)=>{
-            console.log(this);
             if(data['status'] == 1) {
-              localStorage.token = data['token'];
-              localStorage.scrum_master = data['scrum_master'];
+              localStorage.token = data['user_details']['token'];
+              localStorage.scrum_master = data['user_details']['scrum_master'];
               localStorage.project_id = 0;
               console.log('Successfully retrieved token from the server! Token: ' + data['token']);
               this.checkLogin();
-            } else {
+              this.checkProject();
+            } else if(data['status'] == 2) {
               console.log("Error: Login Failed");
+            } else if(data['status'] == 3) {
+              onLogout();
             }
           }),
           error: function() {
@@ -42,7 +58,35 @@ class loginSystem {
         });
     }
 
+    checkUserProject(proj_id) {
+        $.ajax({
+          type: "POST",
+          url: "./src/restService.php",
+          dataType: "json",
+          data: {
+            token: localStorage.token,
+            proj_id: proj_id,
+            action: 'projUserCheck'
+          },
+          success: ((data)=>{
+            if(data['status'] == 1) {
+              localStorage.project_id =  data['project_id'];
+              this.checkLogin();
+            } else if(data['status'] == 2) {
+              localStorage.project_id =  0;
+              this.checkLogin();
+            } else if(data['status'] == 3) {
+              onLogout();
+            }
+          }),
+          error: function() {
+            console.log("Error: check Failed");
+          }
+        });
+    }
+
     onLogout() {
+      this.onLogoutServer();
       localStorage.clear();
       this.hideDeveloperFrame();
       this.hideScrumPokerFrame();
@@ -50,7 +94,25 @@ class loginSystem {
       this.showLoginFrame();
     }
 
+    onLogoutServer() {
+      $.ajax({
+        type: "POST",
+        url: "./src/restService.php",
+        dataType: "json",
+        data: {
+          action: 'logout'
+        },
+        success: ((data)=>{
+          console.log('logged out');
+        }),
+        error: function() {
+          console.log("Error: Login Failed");
+        }
+      });
+    }
+
     checkLogin() {
+      console.log(localStorage.project_id);
       this.hideLoginFrame();
       this.hideScrumPokerFrame();
       this.hideDeveloperFrame();
@@ -69,6 +131,67 @@ class loginSystem {
         this.showLoginFrame();
       }
     }
+
+    onProjectCreate() {
+        $.ajax({
+          type: "POST",
+          url: "./src/restService.php",
+          dataType: "json",
+          data: {
+            proj_name: $( "#project-name" ).val(),
+            token: localStorage.token,
+            action: 'create_proj'
+          },
+          success: ((data)=>{
+            if(data['status'] == 1) {
+              console.log(data);
+              localStorage.project_id = data['project_id'];
+              localStorage.project_name = data['project_name'];
+
+              this.checkLogin();
+            } else if(data['status'] == 2) {
+              console.log("Error: Project creation Failed");
+            }
+          }),
+          error: function() {
+            console.log("Error: Project creation failed");
+          }
+        });
+    }
+
+    onTicketSubmit() {
+        $.ajax({
+          type: "POST",
+          url: "./src/restService.php",
+          dataType: "json",
+          data: {
+            ticket_id: $( "#ticket_id" ).val(),
+            ticket_desc: $( "#ticket_desc" ).val(),
+            ticket_link: $( "#ticket_link" ).val(),
+            token: localStorage.token,
+            project_id: localStorage.project_id,
+            action: 'createTicket'
+          },
+          success: ((data)=>{
+            if(data['status'] == 1) {
+              localStorage.token = data['user_details']['token'];
+              localStorage.scrum_master = data['user_details']['scrum_master'];
+              localStorage.project_id = 0;
+              console.log('Successfully retrieved token from the server! Token: ' + data['token']);
+              this.checkLogin();
+            } else if(data['status'] == 2) {
+              console.log("Error: Login Failed");
+            } else if(data['status'] == 3) {
+              onLogout();
+            }
+          }),
+          error: function() {
+            console.log("Error: Login Failed");
+          }
+        });
+    }
+
+
 
     showScrumPokerFrame() {
         $("#scrum_poker_frame").show();
@@ -108,14 +231,11 @@ class loginSystem {
     hideSmStartPage() {
       $("#sm-project-frame").hide();
     }
-
 }
-
-
-
 
 $(document).ready(function() {
   var ls = new loginSystem();
   ls.bindButtonActions();
   ls.checkLogin();
+  ls.checkProject();
 });
