@@ -7,6 +7,11 @@ $password = isset($_REQUEST['password']) ? $_REQUEST['password'] : null;
 $token = isset($_REQUEST['token']) ? $_REQUEST['token'] : null;
 $projName = isset($_REQUEST['proj_name']) ? $_REQUEST['proj_name'] : null;
 $projId = isset($_REQUEST['proj_id']) ? $_REQUEST['proj_id'] : null;
+$ticketName = isset($_REQUEST['ticket_name']) ? $_REQUEST['ticket_name'] : null;
+$ticketDesc = isset($_REQUEST['ticket_desc']) ? $_REQUEST['ticket_desc'] : null;
+$ticketLink = isset($_REQUEST['ticket_link']) ? $_REQUEST['ticket_link'] : null;
+$estimation = isset($_REQUEST['estimation']) ? $_REQUEST['estimation'] : null;
+$ticket_id = isset($_REQUEST['ticket_id']) ? $_REQUEST['ticket_id'] : null;
 
 try {
     $response = array();
@@ -25,16 +30,19 @@ switch ($action) {
 
 case 'projUserCheck':
     $response['project_id'] = 0;
-    //print_r ($_SESSION['project_id']);die;
     if(!isset($_SESSION['project_id']) && $projId) {
       $response['status'] = 1;
-      $response['project_id'] = $scrumCont->checkUserProject($projId);
+      $r = $scrumCont->checkUserProject($projId);
+      $response['project_id'] = $r['project_id'];
+      $response['project_name'] = $r['project_name'];
     } else if(isset($_SESSION['project_id']) && $_SESSION['project_id'] == $projId) {
       $response['status'] = 1;
       $response['project_id'] = $_SESSION['project_id'];
+      $response['project_name'] = $_SESSION['project_name'];
     } else {
       $response['status'] = 2;
       $response['project_id'] = 0;
+      $response['project_name'] = "";
     }
     break;
 
@@ -57,6 +65,15 @@ case 'logout' :
     $scrumCont->logout();
     $response['status'] = 1;
     $response['desc']   = 'Log out success';
+    break;
+case 'createTicket' :
+    $response = $scrumCont->createTicket($ticketName, $ticketDesc, $ticketLink);
+    break;
+case 'submitEstimation' :
+    $response = $scrumCont->createEstimation($ticket_id, $estimation, $projId);
+    break;
+case 'finalEstimation' :
+    $response = $scrumCont->finalEstimation($ticket_id, $estimation, $projId);
     break;
 default:
         $response['status'] = 2;
