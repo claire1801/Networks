@@ -3,6 +3,7 @@ abstract class Settings
 {
     const SRC_DIR = '';
     const SECRET_TOKEN_KEY = 'sfasf987sdafhsadf90k98';
+    const PROJECT_URL = "http://localhost/Scrum2?";
 
     public static $DATABASE =
       array(

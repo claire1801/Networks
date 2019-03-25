@@ -45,7 +45,7 @@ class DB_Ticket
           $sth = $this->_conn->prepare('SELECT t.name, e.estimation,u.full_name,u.user_id, t.final_estimation '
           .'FROM ticket t, estimation e, users u WHERE t.project_id = ? AND '
           .'t.final_estimation IS NOT NULL AND t.project_id=e.project_id AND '
-          .'u.user_id = e.user_id AND t.ticket_id = e.ticket_id order by t.last_update_time');
+          .'u.user_id = e.user_id AND t.ticket_id = e.ticket_id order by t.last_update_time DESC');
           $sth->bindParam(1, $projId, PDO::PARAM_INT);
           $sth->execute();
           return $sth->fetchAll();

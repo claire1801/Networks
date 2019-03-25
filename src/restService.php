@@ -55,6 +55,7 @@ case 'login' :
         $response['status'] = 1;
         $response['user_details']  = $result;
         $response['desc']   = 'Login Success';
+        $response['project_url'] = Settings::PROJECT_URL;
     }
     break;
 case 'create_proj' :

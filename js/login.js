@@ -62,11 +62,13 @@ class loginSystem {
             action: 'login'
           },
           success: ((data)=>{
+            console.log(data);
             if(data['status'] == 1) {
               localStorage.token = data['user_details']['token'];
               localStorage.scrum_master = data['user_details']['scrum_master'];
               localStorage.project_id = 0;
               localStorage.user_name = data['user_details']['full_name'];
+              localStorage.project_url = data['project_url'];
               console.log('Successfully retrieved token from the server! Token: ' + data['token']);
               this.checkLogin();
               this.checkProject();
@@ -76,7 +78,8 @@ class loginSystem {
               this.onLogout();
             }
           }),
-          error: function() {
+          error: function(error) {
+            console.log(error);
             console.log("Error: Login Failed");
           }
         });
@@ -175,6 +178,13 @@ class loginSystem {
               localStorage.project_id = data['project_id'];
               localStorage.project_name = data['project_name'];
               this.checkLogin();
+              var data = {
+                action: "newProject",
+                project_id: data['project_id'],
+                project_name: data['project_name']
+              };
+              this.send_socket_message(data);
+
             } else if(data['status'] == 2) {
               console.log("Error: Project creation Failed");
             }
@@ -244,7 +254,8 @@ class loginSystem {
             success: ((data)=>{
               console.log(data);
               if(data['status'] == 1) {
-                //this.send_socket_message(data.broadcast);
+                console.log(data.broadcast);
+                this.send_socket_message(data.broadcast);
               } else if(data['status'] == 2) {
               } else if(data['status'] == 3) {
                 onLogout();
@@ -292,6 +303,9 @@ class loginSystem {
     showScrumPokerFrame() {
         $("#scrum_poker_frame").show();
         console.log("s show");
+         var url = localStorage.project_url +'project_id='+ localStorage.project_id;
+         var projUrlStr = '<a href="'+url+'">'+url+'</a>';
+        $("#sm_share_url").html(projUrlStr);
     }
 
     hideScrumPokerFrame() {
@@ -361,6 +375,12 @@ class loginSystem {
                     this.revealDevEstimationPanel();
                 }
                 break;
+              case 'newProject':
+                this.updateNewProject(response.message);
+                break;
+              case 'estimation_done':
+                this.listAllprojects(response.message);
+                break;
       			}
         }
         this.sender = false;
@@ -372,6 +392,31 @@ class loginSystem {
   			console.log("socket connection closed");
   		};
   	}
+
+
+    listAllprojects(message){
+      console.log(message);
+      var projHtml = "";
+      for (var est in message.estimations) {
+        var ticket = message.estimations[est];
+        console.log(est);
+        projHtml += '<div class="row">Issue Id: '+ ticket.name +'</div>';
+        projHtml += '<div class="row">Final Estimation: '+ ticket.final_estimation +'</div>';
+        projHtml += '</hr>';
+      }
+      if(localStorage.scrum_master == 1) {
+        $( "#sm_project_list" ).html(projHtml);
+      } else {
+        $( "#dev_project_list" ).html(projHtml);
+      }
+    }
+
+    updateNewProject(message){
+      localStorage.project_id = message.project_id;
+      localStorage.project_name = message.project_name;
+      this.setUserProjectName();
+      this.checkUserProject(message.project_id);
+    }
 
     updateEstimation(message){
       var userEsti = {};

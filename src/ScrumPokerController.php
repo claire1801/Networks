@@ -191,27 +191,28 @@ public function finalEstimation( $ticketId, $estimation, $projId) {
     $result['status'] = 1;
     $result['desc'] = 'updated';
     $broadcast['action'] = 'estimation_done';
-    $result['broadcast'] = $allEstimations;
+    $broadcast['estimations'] = $allEstimations;
+    $result['broadcast'] =  $broadcast;
     return $result;
 }
 
 public function getAllEstimatedTickets($projId) {
     $allTickets = $this->_ticket->getAllEstimatedTickets($projId);
     $results = array();
-    $ticketName ="";
+    //$ticketName ="";
     $users = [];
-    foreach ($allTickets as $value) {
-      if($ticketName != $value['name'] && count($users)) {
-        $results[$ticketName]['users'] = $users;
-        $users = [];
-      }
-      $ticketName = $value['name'];
-      $results[$ticketName] = ['name'=> $value['name'],
+    foreach ($allTickets as $key => $value) {
+      //if($ticketName != $value['name'] && count($users)) {
+      //  $results[$ticketName]['users'] = $users;
+      //  $users = [];
+      //}
+      //$ticketName = $value['name'];
+      $results[$key] = ['name'=> $value['name'],
                               'final_estimation'=>$value['final_estimation']
                             ];
-      $users[$value['user_id']] = ['user_name'=>$value['full_name'] , 'estimation' =>$value['estimation']];
+      //$users[$value['user_id']] = ['user_name'=>$value['full_name'] , 'estimation' =>$value['estimation']];
     }
-    $results[$ticketName]['users'] = $users;
+    //$results[$ticketName]['users'] = $users;
     return $results;
 }
 
