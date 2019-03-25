@@ -30,52 +30,70 @@
       <div class="col-sm-6 mt-5 ">
         <div class="card form ">
           <div class="card-header">
-    				<h4>ABC Project - Scrum Master</h4>
+    				<h4>Project : <span id="sm_project_name"></span> - Scrum Master : <span id="sm_user_name"></span></h4>
+            <button id="logout-button" type="button">Logout</button>
     			</div>
-          <button id="logout-button" type="button">Logout</button>
           <div class="input-container">
-            <INPUT class="input-field" type="text" placeholder="Ticket ID" id="TicketID" required><BR>
+            <label>Ticket ID :</label>
+            <INPUT class="input-field" type="text" placeholder="Ticket ID" id="ticket_name" required><BR>
           </div>
           <div class="input-container">
-            <INPUT class="input-field" type="text" placeholder="Description" id="Description" required>
+            <label>Description :</label>
+            <textarea class="input-field form-control" placeholder="Description" id="ticket_desc" rows="3" required></textarea>
+
           </div>
           <div class="input-container">
-            <INPUT class="input-field" type="text" placeholder="Ticket Link" id="TicketLink" required>
+            <label>Ticket URL :</label>
+            <INPUT class="input-field" type="text" placeholder="Ticket Link" id="ticket_link" required>
           </div>
-          <button type="submit">Submit</button>
-          <button type="submit">Reset</button>
+          <div class="row">
+          <div class="col-md-6">
+          </div>
+          <div class="col-md-6 float-right">
+            <button id="sm_ticket_submit" type="button">Submit</button>
+            <button id="sm_ticket_reset" type="button">Reset</button>
+          </div>
+
+        </div>
         </div>
         <div class="card results mt-5">
           <div class="card-header">
             <h4>Results</h4>
           </div>
         <div class="card-body">
-        Estimations go here.
-        </div>
+          <div id="sm_estimation_list">
+
+          </div>
+          <div class="row">
+            <button id="sm_reveal" type="button">Reveal Estimation</button>
+          </div>
+       </div>
         <hr />
+        <div class="card-header">
+          <h4>Final Estimation</h4>
+        </div>
         <div class="form-check form-check-inline ">
-          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-          <label class="form-check-label" for="inlineRadio1">1 Day</label>
+          <input class="form-check-input" type="radio" name="sm_estimation" id="sm_est1" value="1">
+          <label class="form-check-label" for="sm_est1">1 Day</label>
         </div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-          <label class="form-check-label" for="inlineRadio2">2 Days</label>
+          <input class="form-check-input" type="radio" name="sm_estimation" id="sm_est2" value="2">
+          <label class="form-check-label" for="sm_est2">2 Days</label>
         </div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
-          <label class="form-check-label" for="inlineRadio3">3 Days</label>
+          <input class="form-check-input" type="radio" name="sm_estimation" id="sm_est3" value="3">
+          <label class="form-check-label" for="sm_est3">3 Days</label>
         </div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option4">
-          <label class="form-check-label" for="inlineRadio4">4 Days</label>
+          <input class="form-check-input" type="radio" name="sm_estimation" id="sm_est4" value="4">
+          <label class="form-check-label" for="sm_est4">4 Days</label>
         </div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5" value="option5">
-          <label class="form-check-label" for="inlineRadio5">5 Days</label>
+          <input class="form-check-input" type="radio" name="sm_estimation" id="sm_est5" value="8">
+          <label class="form-check-label" for="sm_est5">5 Days</label>
         </div>
         <div class="buttons">
-          <button type="button">Submit</button>
-          <button type="button">Re-estimate</button>
+          <button id="final_est_button" type="button">Submit</button>
         </div>
         </div>
       </div>
@@ -92,44 +110,44 @@
         <div class="col-sm-6 mt-5 ">
           <div class="card form ">
             <div class="card-header">
-      				<h4>ABC Project - Developer</h4>
+              <h4>Project : <span id="project_name"></span> - Developer : <span id="user_name"></span></h4>
+              <button id="dev-logout-button" type="button">Logout</button>
       			</div>
-            <button id="dev-logout-button" type="button">Logout</button>
-          <label>Ticket ID</label>
-          <label>Description</label>
+          <label>Ticket ID :</label> <span id="dev_ticket_name"></span>
+          <label>Description :</label><span id="dev_ticket_desc"></span>
+          <label>Ticket URL :</label><span id="dev_ticket_url"></span>
           <label>How many days to complete the task?</label>
-
           <div class="form-check form-check-inline ">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-            <label class="form-check-label" for="inlineRadio1">1 Day</label>
+            <input class="form-check-input" type="radio" name="dev_estimation" id="dev_est1" value="1">
+            <label class="form-check-label" for="dev_est1">1 Day</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-            <label class="form-check-label" for="inlineRadio2">2 Days</label>
+            <input class="form-check-input" type="radio" name="dev_estimation" id="dev_est2" value="2">
+            <label class="form-check-label" for="dev_est2">2 Day</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
-            <label class="form-check-label" for="inlineRadio3">3 Days</label>
+            <input class="form-check-input" type="radio" name="dev_estimation" id="dev_est3" value="3">
+            <label class="form-check-label" for="dev_est3">3 Days</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option4">
-            <label class="form-check-label" for="inlineRadio4">4 Days</label>
+            <input class="form-check-input" type="radio" name="dev_estimation" id="dev_est4" value="4">
+            <label class="form-check-label" for="dev_est4">4 Days</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5" value="option5">
-            <label class="form-check-label" for="inlineRadio5">5 Days</label>
+            <input class="form-check-input" type="radio" name="dev_estimation" id="dev_est5" value="8">
+            <label class="form-check-label" for="dev_est5">8 Days</label>
           </div>
           <div class="buttons">
-            <button type="submit">Submit</button>
+            <button id="dev_est_button" type="submit">Submit</button>
           </div>
           </div>
           <div class="card results mt-5">
             <div class="card-header">
               <h4>Results</h4>
             </div>
-          <div class="card-body">
-          See other's estimations
-          </div>
+            <div id="dev_estimation_list" class="card-body">
+
+           </div>
           <hr />
 
           </div>
@@ -139,10 +157,7 @@
               <h4>Projects</h4>
             </div>
           </div>
-   <div class="card-header">
-              <h4>Projects</h4>
-            </div>
-          </div>
+      </div>
 
     <div id="sm-project-frame">
       <div class="d-flex justify-content-center">
@@ -154,7 +169,7 @@
               <div class="input-container">
                   <input type="text" class="for-control" placeholder="Project Name" id="project-name" required>
                   <div class="form-group">
-              		<button type="submit"> Create New Project</button>
+              		<button id="createProj" type="button"> Create New Project</button>
                   <button id="sm-logout-button" type="button">Logout</button>
               	  </div>
               </div>
