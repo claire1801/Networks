@@ -7,9 +7,9 @@ $password = isset($_REQUEST['password']) ? $_REQUEST['password'] : null;
 $token = isset($_REQUEST['token']) ? $_REQUEST['token'] : null;
 $projName = isset($_REQUEST['proj_name']) ? $_REQUEST['proj_name'] : null;
 $projId = isset($_REQUEST['proj_id']) ? $_REQUEST['proj_id'] : null;
-$ticketName = isset($_REQUEST['ticket_name']) ? $_REQUEST['ticket_name'] : null;
-$ticketDesc = isset($_REQUEST['ticket_desc']) ? $_REQUEST['ticket_desc'] : null;
-$ticketLink = isset($_REQUEST['ticket_link']) ? $_REQUEST['ticket_link'] : null;
+$ticketName = (isset($_REQUEST['ticket_name']) && $_REQUEST['ticket_name'] != "") ? $_REQUEST['ticket_name'] : null;
+$ticketDesc = (isset($_REQUEST['ticket_desc']) && $_REQUEST['ticket_desc'] != "")? $_REQUEST['ticket_desc'] : null;
+$ticketLink = (isset($_REQUEST['ticket_link']) && $_REQUEST['ticket_link'] != "")? $_REQUEST['ticket_link'] : null;
 $estimation = isset($_REQUEST['estimation']) ? $_REQUEST['estimation'] : null;
 $ticket_id = isset($_REQUEST['ticket_id']) ? $_REQUEST['ticket_id'] : null;
 
@@ -56,6 +56,7 @@ case 'login' :
         $response['user_details']  = $result;
         $response['desc']   = 'Login Success';
         $response['project_url'] = Settings::PROJECT_URL;
+        $response['socket_url'] = Settings::SOCKET_URL;
     }
     break;
 case 'create_proj' :

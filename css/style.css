@@ -56,12 +56,34 @@ body {
   align-items: center;
 }
 
+.alert-message{
+      position: fixed;
+      top: 10px;
+      left: 40%;
+      margin: 0 auto;
+      font-size: 1.2em;
+      padding: 1em 1em;
+      z-index: 2000;
+      font-weight: bold;
+      color: #000000;
+      border: solid 1px #88C0CC;
+      opacity: 0.7;
+      filter: alpha(opacity=70);
+}
+
+.error-alert{
+    background-color: #ff6666;
+}
+
+.normal-alert{
+    background-color: #99ccff;
+}
 
 .footer{
   color: white;
   float: right;
   width: 33%;
   font-size: 60%;
-  text-align: right
+  text-align: right;
   padding-right: 1em;
 }

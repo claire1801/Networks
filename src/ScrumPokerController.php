@@ -64,6 +64,10 @@ class ScrumPokerController {
   public function createTicket($ticketName, $ticketDesc, $ticketLink){
       $response = array();
       $response['status'] = 2;
+      if(!(isset($ticketName) && isset($ticketDesc) && isset($ticketLink))){
+         $response['status'] = 4;
+         return $response;
+      }
       if($this->isScrumMaster()  && isset($_SESSION['project_id'])) {
         $ticketId = $this->_ticket->createTicket(
                 $ticketName,

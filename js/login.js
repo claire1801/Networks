@@ -5,6 +5,18 @@ class loginSystem {
       this.estiMap = new Map();
     }
 
+    alertErrorMessage(msg) {
+      $(".alert-message").addClass("error-alert").removeClass("normal-alert");
+      $(".alert-message").html(msg);
+      $(".alert-message").delay(100).fadeIn().delay(4000).fadeOut();
+    };
+
+    alertMessage(msg) {
+      $(".alert-message").addClass("normal-alert").removeClass("error-alert");
+      $(".alert-message").html(msg);
+      $(".alert-message").delay(100).fadeIn().delay(4000).fadeOut();
+    };
+
     bindButtonActions() {
       $('#login-button').click(()=>{
         this.onLogin();
@@ -69,18 +81,18 @@ class loginSystem {
               localStorage.project_id = 0;
               localStorage.user_name = data['user_details']['full_name'];
               localStorage.project_url = data['project_url'];
+              localStorage.socket_url = data['socket_url'];
               console.log('Successfully retrieved token from the server! Token: ' + data['token']);
               this.checkLogin();
               this.checkProject();
             } else if(data['status'] == 2) {
-              console.log("Error: Login Failed");
+              this.alertErrorMessage("Error: Login Failed");
             } else if(data['status'] == 3) {
               this.onLogout();
             }
           }),
           error: function(error) {
-            console.log(error);
-            console.log("Error: Login Failed");
+            this.alertErrorMessage("Error: Login Failed");
           }
         });
     }
@@ -101,6 +113,7 @@ class loginSystem {
               localStorage.project_name = data['project_name'];
               this.checkLogin();
             } else if(data['status'] == 2) {
+              this.alertErrorMessage("Error: Project not selected");
               localStorage.project_id =  0;
               this.checkLogin();
             } else if(data['status'] == 3) {
@@ -108,7 +121,7 @@ class loginSystem {
             }
           }),
           error: function() {
-            console.log("Error: check Failed");
+            this.alertErrorMessage("Error: Project not selected");
           }
         });
     }
@@ -121,6 +134,7 @@ class loginSystem {
       this.hideScrumPokerFrame();
       this.hideSmStartPage();
       this.showLoginFrame();
+      this.alertMessage("Successfully logged out.");
     }
 
     onLogoutServer() {
@@ -141,7 +155,6 @@ class loginSystem {
     }
 
     checkLogin() {
-      console.log(localStorage.project_id);
       this.hideLoginFrame();
       this.hideScrumPokerFrame();
       this.hideDeveloperFrame();
@@ -184,9 +197,10 @@ class loginSystem {
                 project_name: data['project_name']
               };
               this.send_socket_message(data);
-
             } else if(data['status'] == 2) {
               console.log("Error: Project creation Failed");
+            } else if(data['status'] == 4) {
+                this.alertErrorMessage("Error: Project already exist. Pls give different name.");
             }
           }),
           error: function() {
@@ -221,11 +235,14 @@ class loginSystem {
           },
           success: ((data)=>{
             if(data['status'] == 1) {
-              console.log(data);
               this.send_socket_message(data.broadcast);
+              this.alertMessage("Ticket created and broadcasted.");
             } else if(data['status'] == 2) {
+              this.alertErrorMessage("Error: Ticket creation failed.");
             } else if(data['status'] == 3) {
               onLogout();
+            } else if(data['status'] == 4) {
+              this.alertErrorMessage("Error: Ticket creation failed. Provide all data.");
             }
           }),
           error: function() {
@@ -256,6 +273,9 @@ class loginSystem {
               if(data['status'] == 1) {
                 console.log(data.broadcast);
                 this.send_socket_message(data.broadcast);
+                this.alertMessage("Final estimation submitted.");
+                this.resetTicket();
+                $('input[name=sm_estimation]:checked').attr("checked", false);
               } else if(data['status'] == 2) {
               } else if(data['status'] == 3) {
                 onLogout();
@@ -343,8 +363,8 @@ class loginSystem {
     }
 
     create_socket(){
-  		var wsUri = "ws://localhost:9000/Scrum2/socket/server.php";
-  		this.websocket = new WebSocket(wsUri);
+  		//var wsUri = localStorage.socket_url;
+  		this.websocket = new WebSocket("ws://ec2-34-214-229-187.us-west-2.compute.amazonaws.com:9000/scrumpoker/socket/server.php");
   		this.sender = true;
   		this.websocket.onopen = function(ev) { // connection is open
   			console.log("connection created");
@@ -358,9 +378,6 @@ class loginSystem {
       			var res_type 		= response.message.action; //message type
 
       			switch(res_type){
-      				case 'ticket_history':
-      					this.update_ticket_history(response.message);
-      					break;
       				case 'new_ticket_created':
       					this.update_new_ticket(response.message);
       					break;
@@ -373,6 +390,7 @@ class loginSystem {
               case 'revealEstimation':
                 if(localStorage.scrum_master == 0) {
                     this.revealDevEstimationPanel();
+                    this.alertMessage("Estimation revealed. You can discuss.");
                 }
                 break;
               case 'newProject':
@@ -395,7 +413,7 @@ class loginSystem {
 
 
     listAllprojects(message){
-      console.log(message);
+      //console.log(message);
       var projHtml = "";
       for (var est in message.estimations) {
         var ticket = message.estimations[est];
@@ -409,6 +427,8 @@ class loginSystem {
       } else {
         $( "#dev_project_list" ).html(projHtml);
       }
+      this.alertMessage("Estimated ticket list updated.");
+      this.resetTicket();
     }
 
     updateNewProject(message){
@@ -431,6 +451,7 @@ class loginSystem {
       } else {
         this.updateDevEstimationPanel();
       }
+      this.alertMessage("Developer provided estimation.");
     }
 
     sendRevealOrder() {
@@ -494,11 +515,8 @@ class loginSystem {
           $( "#dev_ticket_name" ).text(response.ticket_name);
           $( "#dev_ticket_desc" ).text(response.ticket_desc);
           $( "#dev_ticket_url" ).text(response.ticket_url);
+          this.alertMessage("New ticket posted. Pls estimate.");
       }
-    }
-
-    update_ticket_history(response) {
-      console.log(response);
     }
 }
 
@@ -508,4 +526,5 @@ $(document).ready(function() {
   ls.checkLogin();
   ls.checkProject();
   ls.create_socket();
+  ls.resetTicket();
 });
