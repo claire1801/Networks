@@ -1,0 +1,222 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="./css/style.css" type="text/css">
+  <link rel="stylesheet" href="./library/css/font-awesome.min.css">
+  <link rel="stylesheet" href="./library/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="./library/css/animate.min.css">
+  <script
+    src="https://code.jquery.com/jquery-2.2.4.js"
+    integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+    crossorigin="anonymous"></script>
+    <script src="./library/js/bootstrap.min.js"></script>
+  <script src="./js/login.js"></script>
+  <title>Scrum Online Poker</title>
+</head>
+<body>
+<div class="row">
+  <div class="alert-message error-alert" style="display: none;"></div>
+</div>
+
+    <div  class="d-flex justify-content-center">
+  		<div id="login_frame" class="card mt-5 col-md-4 animated bounceInDown form">
+        <div class="card-header">
+  				<h4>Login</h4>
+  			</div>
+        <div class="input-container">
+          <INPUT class="input-field" type="text" placeholder="Username" id="username" required><BR>
+        </div>
+        <div class="input-container">
+          <INPUT class="input-field" type="password" placeholder="Password" id="password" required>
+        </div>
+        <button id="login-button" type="button">Login</button>
+        <div class="footer">
+          <a href="http://validator.w3.org/check/referer" rel="nofollow" title="Validate as HTML5">HTML5 ||</a>
+          <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS3</a>
+        </div>
+      </div>
+    </div>
+
+    <div id="scrum_poker_frame" class="row">
+      <div class="col-sm-6 mt-5 ">
+        <div class="card form ">
+          <div class="card-header">
+    				<h4>Project : <span id="sm_project_name"></span> - Scrum Master : <span id="sm_user_name"></span></h4>
+            <div class="row">
+              Project URL :
+            <div id="sm_share_url">
+            </div>
+          </div>
+            <button id="logout-button" type="button">Logout</button>
+    			</div>
+          <div class="input-container">
+            <label>Ticket ID :</label>
+            <INPUT class="input-field" type="text" placeholder="Ticket ID" id="ticket_name" required><BR>
+          </div>
+          <div class="input-container">
+            <label>Description :</label>
+            <textarea class="input-field form-control" placeholder="Description" id="ticket_desc" rows="3" required></textarea>
+
+          </div>
+          <div class="input-container">
+            <label>Ticket URL :</label>
+            <INPUT class="input-field" type="text" placeholder="Ticket Link" id="ticket_link" required>
+          </div>
+          <div class="row">
+          <div class="col-md-6">
+          </div>
+          <div class="col-md-6 float-right">
+            <button id="sm_ticket_submit" type="button">Submit</button>
+            <button id="sm_ticket_reset" type="button">Reset</button>
+          </div>
+
+        </div>
+        </div>
+        <div class="card results mt-5">
+          <div class="card-header">
+            <h4>Results</h4>
+          </div>
+        <div class="card-body">
+          <div id="sm_estimation_list">
+
+          </div>
+          <div class="row">
+            <button id="sm_reveal" type="button">Reveal Estimation</button>
+          </div>
+       </div>
+        <hr />
+        <div class="card-header">
+          <h4>Final Estimation</h4>
+        </div>
+        <div class="form-check form-check-inline ">
+          <input class="form-check-input" type="radio" name="sm_estimation" id="sm_est1" value="1">
+          <label class="form-check-label" for="sm_est1">1 Day</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="sm_estimation" id="sm_est2" value="2">
+          <label class="form-check-label" for="sm_est2">2 Days</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="sm_estimation" id="sm_est3" value="3">
+          <label class="form-check-label" for="sm_est3">3 Days</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="sm_estimation" id="sm_est4" value="4">
+          <label class="form-check-label" for="sm_est4">4 Days</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="sm_estimation" id="sm_est5" value="8">
+          <label class="form-check-label" for="sm_est5">8 Days</label>
+        </div>
+        <div class="buttons">
+          <button id="final_est_button" type="button">Submit</button>
+        </div>
+        </div>
+      </div>
+      <div class="col-sm-6 mt-5 ">
+        <div class="card projects ">
+          <div class="card-header">
+            <h4>Estimation History</h4>
+            <div id="sm_project_list">
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <a href="http://validator.w3.org/check/referer" rel="nofollow" title="Validate as HTML5">HTML5 ||</a>
+        <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS3</a>
+      </div>
+    </div>
+
+    <div id="developer_frame" class="row">
+        <div class="col-sm-6 mt-5 ">
+          <div class="card form ">
+            <div class="card-header">
+              <h4>Project : <span id="project_name"></span> - Developer : <span id="user_name"></span></h4>
+              <button id="dev-logout-button" type="button">Logout</button>
+      			</div>
+          <label>Ticket ID :</label> <span id="dev_ticket_name"></span>
+          <label>Description :</label><span id="dev_ticket_desc"></span>
+          <label>Ticket URL :</label><span id="dev_ticket_url"></span>
+          <label>How many days to complete the task?</label>
+          <div class="form-check form-check-inline ">
+            <input class="form-check-input" type="radio" name="dev_estimation" id="dev_est1" value="1">
+            <label class="form-check-label" for="dev_est1">1 Day</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="dev_estimation" id="dev_est2" value="2">
+            <label class="form-check-label" for="dev_est2">2 Day</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="dev_estimation" id="dev_est3" value="3">
+            <label class="form-check-label" for="dev_est3">3 Days</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="dev_estimation" id="dev_est4" value="4">
+            <label class="form-check-label" for="dev_est4">4 Days</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="dev_estimation" id="dev_est5" value="8">
+            <label class="form-check-label" for="dev_est5">8 Days</label>
+          </div>
+          <div class="buttons">
+            <button id="dev_est_button" type="submit">Submit</button>
+          </div>
+          </div>
+          <div class="card results mt-5">
+            <div class="card-header">
+              <h4>Results</h4>
+            </div>
+            <div id="dev_estimation_list" class="card-body">
+
+           </div>
+          <hr />
+
+          </div>
+        </div>
+        <div class="col-sm-6 mt-5 ">
+          <div class="card projects ">
+              <h4>Estimation History</h4>
+              <div id="dev_project_list">
+
+              </div>
+            </div>
+          </div>
+          <div class="footer">
+           <a href="http://validator.w3.org/check/referer" rel="nofollow" title="Validate as HTML5">HTML5 ||</a>
+           <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS3</a>
+          </div>
+      </div>
+
+    <div id="sm-project-frame">
+      <div class="d-flex justify-content-center">
+        <div class="card mt-5 col-md-5">
+          <div class="card-header">
+      				<h4>Online Scrum Task Estimation</h4>
+      			</div>
+            <form method="post">
+              <div class="input-container">
+                  <input type="text" class="for-control" placeholder="Project Name" id="project-name" required>
+                  <div class="form-group">
+              		<button id="createProj" type="button"> Create New Project</button>
+                  <button id="sm-logout-button" type="button">Logout</button>
+              	  </div>
+              </div>
+            </form>
+    	     </div>
+         </div>
+         <div class="footer">
+           <a href="http://validator.w3.org/check/referer" rel="nofollow" title="Validate as HTML5">HTML5 ||</a>
+           <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS3</a>
+          </div>
+    </div>
+
+
+
+
+
+</body>
+</html>
